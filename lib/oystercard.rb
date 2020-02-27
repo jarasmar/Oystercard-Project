@@ -44,4 +44,6 @@ class Oystercard
     @balance -= amount
   end
 
+  gfg
+
 end
