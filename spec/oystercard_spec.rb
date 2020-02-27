@@ -6,9 +6,6 @@ describe Oystercard do
     expect(subject.balance).to eq 0
   end
 
-  it "initializes with #in_journey? false" do
-    expect(subject.in_journey?).to eq false
-  end
 
   it 'initializes with an empty journey_history' do
     expect(subject.journey_history).to eq []
