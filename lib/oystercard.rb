@@ -1,14 +1,14 @@
+require_relative 'journey'
+
 class Oystercard
 
-  attr_reader :balance, :entry_station, :exit_station, :journey_history
+  attr_reader :balance, :journey, :journey_history
   MAX_BALANCE = 90
   MIN_FARE = 1
-
   def initialize
     @balance = 0
-    @entry_station = nil
-    @exit_station = nil
-    @journey_history =[]
+    @journey = Journey.new
+    @journey_history = []
   end
 
   def top_up(value)
@@ -18,23 +18,14 @@ class Oystercard
 
   def touch_in(entry_station)
     fail "Not enough money in your card" if @balance < MIN_FARE
-    @entry_station = entry_station
+    @journey.start_journey(entry_station)
   end
 
   def touch_out(exit_station)
-    fail "Currently not travelling" if @entry_station == nil
+    @journey.finish_journey(exit_station)
     @balance = deduct(MIN_FARE)
-    @exit_station = exit_station
-    @journey_history << {:entry_station => @entry_station, :exit_station => @exit_station}
-    @entry_station = nil
-  end
-
-  def in_journey?
-    !!@entry_station  # converts @entry_station in a boolean (will return true for any value thats not nil/false)
-    # if @entry_station != nil
-    #   return true
-    # else false
-    # end
+    @journey_history << @journey.current_journey
+    @journey.current_journey = nil
   end
 
   private
@@ -43,7 +34,5 @@ class Oystercard
     fail "Not enough money in your card" if amount > @balance
     @balance -= amount
   end
-
-  gfg
 
 end
