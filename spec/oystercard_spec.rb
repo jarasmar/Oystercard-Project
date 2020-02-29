@@ -29,7 +29,7 @@ describe Oystercard do
 
     it "#deducts value from balance" do
       subject.top_up(10)
-      expect { subject.send(:deduct,5) }.to change{ subject.balance }.by -5 # calling the private method
+      expect { subject.send(:deduct, Oystercard::MIN_FARE) }.to change{ subject.balance }.by -1 # calling the private method
     end
 
     it "raises an error when #deduct and balance is too low" do
